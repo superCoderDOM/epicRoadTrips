@@ -1,0 +1,39 @@
+{
+  "name": "epic_road_trips",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@google/maps": "^0.4.5",
+    "axios": "^0.17.1",
+    "bcrypt": "^1.0.3",
+    "bottleneck": "^1.16.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "iter-tools": "^1.4.1",
+    "jsonwebtoken": "^8.1.0",
+    "moment": "^2.19.2",
+    "mongoose": "^4.13.4",
+    "pandas-js": "^0.2.4",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-google-maps": "^9.4.1",
+    "react-helmet": "^5.2.0",
+    "react-places-autocomplete": "^5.4.3",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.17",
+    "recompose": "^0.26.0",
+    "timer-promise": "0.0.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
+  "main": "index.js",
+  "devDependencies": {},
+  "author": "Dominic Lacroix",
+  "license": "ISC",
+  "proxy": "http://localhost:8080"
+}

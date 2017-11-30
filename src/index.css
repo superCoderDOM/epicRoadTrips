@@ -1,0 +1,131 @@
+/* TAG */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  font-size: 100%;
+}
+
+header {
+  position: relative;
+}
+
+nav img {
+  filter: drop-shadow(0 0 1px black);  
+  height: 40px;
+}
+
+/* CLASS */
+
+.card {
+  margin-top: 15px;
+  min-width: 20%;
+  padding: 0.1em;
+}
+
+.card:hover {
+  box-shadow: 2px 2px 5px black;  
+}
+
+.card-deck {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card-img-top {
+  height: 15vh;
+}
+
+.carousel-caption a {
+  color: white;
+  text-shadow: 0 0 5px black;  
+}
+
+.carousel-caption a:hover {
+  text-decoration: none;
+  text-shadow: 0 0 10px black;  
+}
+
+.carousel-item img {
+  max-height: 70vh;
+}
+
+.form-inline .input-group {
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.input-group-addon {
+  background-color: goldenrod;
+}
+
+.text-overlay {
+  border-radius: 0;
+  color: white;
+  height: 50vh;
+  position: fixed;
+  top: 30vh;
+  /* text-shadow: 0 0 5px black; */
+  text-align: center;
+  width: 100vw;
+  z-index: 100;
+}
+
+.text-overlay .display-1 {
+  color: snow;
+  font-weight: bolder;  
+  -webkit-text-fill-color: snow;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+}
+
+.text-overlay .lead {
+  color: snow;
+  font-size: 1.5em; 
+}
+
+.loading {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+}
+
+.media-body p {
+  font-size: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.navbar {
+  border-bottom: 3px solid goldenrod;
+  font-size: 1.1em;
+}
+
+.row {
+  width: 90%;
+  margin-left: 5%;
+}
+
+.title-line {
+  align-items: baseline;
+  border-bottom: thin groove gray;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 1em;
+  width: 100%;
+}
+
+.title-line .h1 {
+  margin-left: 0;
+}
+
+.title-line__header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
