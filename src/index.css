@@ -18,6 +18,11 @@ nav img {
 
 /* CLASS */
 
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
 .card {
   margin-top: 15px;
   min-width: 20%;
@@ -48,8 +53,12 @@ nav img {
   text-shadow: 0 0 10px black;  
 }
 
+.homepage {
+  position: relative;
+}
+
 .carousel-item img {
-  max-height: 70vh;
+  height: 90vh;
 }
 
 .form-inline .input-group {
@@ -64,29 +73,97 @@ nav img {
   background-color: goldenrod;
 }
 
+.login-form {
+  border: thin solid grey;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px grey;
+  left: 50%;
+  padding: 2em;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+}
+
+.login-form h1 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.login-form h2 {
+  font-size: 1.2em;
+  margin: 1em 0;
+  text-align: center;
+}
+
+.place-card {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  border: thin solid grey;
+  border-bottom: 3px solid grey;
+  border-radius: 4px;
+  margin: 0;
+  padding: 0;
+}
+
+.place-card_index {
+  background-color: white;
+  border-right: thin solid, grey;
+  height: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin: 0;
+  max-width: 15%;
+  text-align: center;
+}
+
+.place-card_text {
+  background-color: snow;
+  text-align: left;
+}
+
+.place-card_button {
+  background-color: lightgrey;
+  border-left: thin solid grey;
+  max-width: 15%;
+  padding-right: 0.5em;
+  text-align: center;
+}
+
+.place-card_button:hover {
+  cursor: pointer;
+}
+
 .text-overlay {
   border-radius: 0;
   color: white;
-  height: 50vh;
-  position: fixed;
-  top: 30vh;
-  /* text-shadow: 0 0 5px black; */
+  height: 40vh;
+  left: 10%;
+  position: absolute;
   text-align: center;
-  width: 100vw;
+  top: 10%;
+  width: 80vw;
   z-index: 100;
 }
 
 .text-overlay .display-1 {
   color: snow;
-  font-weight: bolder;  
-  -webkit-text-fill-color: snow;
+  font-weight: bold;  
+  text-shadow: 0 0 5px black;
+  /* -webkit-text-fill-color: snow;
   -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-color: black; */
 }
 
 .text-overlay .lead {
   color: snow;
-  font-size: 1.5em; 
+  font-size: 1.7em;
+  font-weight: bold; 
+  text-shadow: 0 0 5px black;
 }
 
 .loading {

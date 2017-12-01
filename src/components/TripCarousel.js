@@ -22,14 +22,7 @@ class TripCarousel extends React.Component{
         });
 
         return(
-            <div>
-                <div className="text-overlay">
-                    <h1 className="display-1"> Epic Road Trips </h1>
-                    <p className="lead"> The world has so many amazing places to see...
-                    <br/> What are you waiting for? 
-                    <br/> Start your own epic journey now! </p>
-                    <Link to="/tripbuilder" className="btn btn-warning"> START YOUR JOURNEY </Link>
-                </div>
+            <div className="carousel-group">
                 <div id="tripCarousel" className="carousel slide" data-ride="carousel">
                     <ol className="carousel-indicators">
                         { tripSlideTargetJSX }

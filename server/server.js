@@ -20,7 +20,7 @@ const Users         = require('../models/Users');
 const MONGO_CONNECTION_STRING = 'mongodb://localhost:27017/data/db';
 
 // Middleware registration
-app.use(express.static(path.join(__dirname, '/build')));
+// app.use(express.static(path.join(__dirname, '/build')));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -39,9 +39,9 @@ connection.on('open', () => {
     });
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/build/index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '/build/index.html'));
+// });
 
 /*==================================
     EXTERNAL ROUTERS & ENDPOINTS

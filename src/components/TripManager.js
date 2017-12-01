@@ -8,7 +8,7 @@ class TripManager extends React.Component{
                 return null;
             }
             return(
-                <li key={ index }> { waypoint } </li>
+                <div className="place-card" key={ waypoint }><span className="place-card_index">{ index + 1 }</span><span className="place-card_text" width={"70%"}>{ waypoint }</span><span className="place-card_button" onClick={ ()=>{this.props.removeWaypoint( waypoint )} }><i className="material-icons">delete</i></span></div>
             );
         });
 
@@ -17,11 +17,11 @@ class TripManager extends React.Component{
                 <button className="btn btn-warning" onClick={ this.props.findOptimalRoute } >OPTIMIZE ROADTRIP</button>
                 <div className="mt-2">
                     <h4><strong> Origin: </strong></h4>
-                    <p>{ this.props.waypointList[0] }</p>
+                    <div className="place-card"><span className="place-card_index">{ this.props.waypointList.length > 0 ? "1" : "" }</span><span className="place-card_text" width={"70%"}>{ this.props.waypointList[0] }</span><span className="place-card_button"></span></div>
                     <h4><strong> Stop Overs: </strong></h4>
-                    <ol>
+                    <div>
                         { waypointsJSX }
-                    </ol>
+                    </div>
                 </div>
             </div>
         );

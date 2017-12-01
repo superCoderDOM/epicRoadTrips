@@ -230,7 +230,7 @@ router.get('/places/photos', (req, res) => {
 //   - req.query object MUST contain:
 //     - keywords --> url encoded list of search words
 router.get('/places', (req, res) => {
-    console.log('/places');
+    // console.log('/places hit');
     // Find a place by keywords
     googleMapsClient.places({
         query: req.query.keywords,

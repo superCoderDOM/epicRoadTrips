@@ -51,6 +51,8 @@ const MyMapComponent = compose(
     defaultCenter={new google.maps.LatLng(43.6532, -79.3832)}
     defaultOptions={{ styles: customMapStyles }}    
   >
+    <Marker position={ markers } />
+
     {props.directions && <DirectionsRenderer directions={props.directions} />}
   </GoogleMap>
 );
@@ -58,7 +60,7 @@ const MyMapComponent = compose(
 class GoogleMapComponent extends React.Component{
   render(){
     return(
-      <MyMapComponent/>
+      <MyMapComponent style={ customMapStyles }/>
     );
   }
 }

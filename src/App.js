@@ -8,14 +8,16 @@ import { Helmet } from 'react-helmet';
 import './App.css';
 
 // API keys
-import keys from './keys';
+// import keys from './keys';
 
 // components
 import Home from './components/Home';
 import NavBar from './components/NavBar';
+import LoginForm from './components/FormLogIn'
 import TripBuilder from './components/TripBuilder';
 import TripDetails from './components/TripDetails';
 import TripList from './components/TripList';
+// import MapDisplay from './components/MapDisplay';
 
 // TEST DATA
 import testData from './tests/mockStateData';
@@ -31,7 +33,7 @@ class App extends React.Component{
             jwt: '',
             userData: {}, // user document saved in database minus password
             waypointList: [],
-            searchMode: 'driving',
+            travelMode: 'driving',
             searchResults: [],
             epicRoadTrip: {},
             curatedTrips: mockCuratedTrips,
@@ -41,8 +43,8 @@ class App extends React.Component{
         // bindings
         this.addCuratedToUserTrips = this.addCuratedToUserTrips.bind(this);
         this.addNewTripToUserTrips = this.addNewTripToUserTrips.bind(this);
-        this.addUserToCuratedTrips = this.addWaypointToList.bind(this);
-        this.addWaypointToList = this.addWaypointToList.bind(this);
+        this.addUserToCuratedTrips = this.addWaypoint.bind(this);
+        this.addWaypoint = this.addWaypoint.bind(this);
         this.createNewUser = this.createNewUser.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.deleteUserTrip = this.deleteUserTrip.bind(this);
@@ -51,6 +53,7 @@ class App extends React.Component{
         this.getAllCuratedTrips = this.getAllCuratedTrips.bind(this);
         this.logUserIn = this.logUserIn.bind(this);
         this.logUserOut = this.logUserOut.bind(this);
+        this.removeWaypoint = this.removeWaypoint.bind(this);
         this.searchGoogleMapsPlaces = this.searchGoogleMapsPlaces.bind(this);
         this.secondsToString = this.secondsToString.bind(this);
         this.setPage = this.setPage.bind(this);
@@ -392,7 +395,7 @@ class App extends React.Component{
         // build request body object
         let tripInfo = {
             // travel mode is set to driving by default
-            mode: this.state.searchMode? this.state.searchMode : 'driving',
+            mode: this.state.travelMode? this.state.travelMode : 'driving',
             waypoints: this.state.searchResults.map(waypoint => {
                 return `place_id:${ waypoint.place_id }`;
             }),
@@ -404,7 +407,7 @@ class App extends React.Component{
             mapLoading: true,
         });
         
-        axios.post(`/maps/findroute`, tripInfo, {timeout: 300000,}) // wait up to 5 minutes for response
+        axios.post(`/maps/findroute`, tripInfo, {timeout: 600000,}) // wait up to 5 minutes for response
         .then(response=>{
             console.log(response.data);
             // Save Epic Road Trip data to state
@@ -427,15 +430,12 @@ class App extends React.Component{
         // prevent page reload
         event.preventDefault();
 
-        const baseURL = '/maps/places?keywords='        
         const keywords = event.target.keywords.value;
         const searchKeywords = keywords.split(" ").join("+");
 
-        // console.log(baseURL + searchKeywords);
 
         // Make a request for a user with a given ID
-        axios.get(baseURL + searchKeywords)
-        
+        axios.get(`/maps/places?keywords=${ searchKeywords }`)        
         .then(response => {
 
             let waypointName;
@@ -462,10 +462,17 @@ class App extends React.Component{
     ================================================*/
 
     // Add new waypoint to current list
-    addWaypointToList(event){
+    addWaypoint(event){
         this.setState({
             waypointList: [...event.target.origin.value, event.target.waypoints.value],
-        })
+        });
+    }
+
+    // Remove waypoint from current list
+    removeWaypoint(value){
+        this.setState({
+            waypointList: [...this.state.waypointList.filter(waypoint => waypoint !== value)],
+        });
     }
 
     // Lifecycle method, scripts will run before page renders
@@ -484,7 +491,7 @@ class App extends React.Component{
             jwt: '',
             userData: {},
             waypointList: [],
-            searchMode: 'driving',
+            travelMode: 'driving',
             searchResults: [],
             epicRoadTrip: {},
         });
@@ -517,20 +524,91 @@ class App extends React.Component{
                 <NavBar 
                     numUserTrips={ this.state.userData.trips ? this.state.userData.trips.length : 0 }
                     createNewUser={ this.createNewUser }
-                    logUserIn={ this.logUserIn }
                     logUserOut={ this.logUserOut } 
                 />
                 <Switch>
-                    <Route exact path={"/"} render={ (props)=><Home match={ props.match } title={"Curated Road Trips"} trips={ this.state.curatedTrips } addToList={ this.addCuratedToUserTrips } secondsToString={ this.secondsToString }/> } />
-                   <main className="container-fluid">
+                    <Route exact path={"/"} render={ (props) => 
+                        <Home 
+                            match={ props.match } 
+                            title={"Curated Road Trips"} 
+                            trips={ this.state.curatedTrips } 
+                            addToList={ this.addCuratedToUserTrips } 
+                            secondsToString={ this.secondsToString }
+                        /> } 
+                    />
+                    <div className="container-fluid">
                         <section>
-                            <Route exact path={"/tripbuilder"} render={ (props)=><TripBuilder match={ props.match } title={"Curated Road Trips"} waypointList={ this.state.waypointList } mapLoading={ this.state.mapLoading } trips={ this.state.curatedTrips } addToList={ this.addCuratedToUserTrips } secondsToString={ this.secondsToString }/> } />
-                            <Route exact path={"/curated/trips"} render={ (props)=><TripList match={ props.match } title={"Curated Road Trips"} trips={ this.state.curatedTrips } addToList={ this.addCuratedToUserTrips } secondsToString={ this.secondsToString } /> } />
-                            <Route path={"/curated/trips/:tripId"} render={ (props)=><TripDetails match={ props.match } trip={ this.state.curatedTrips.concat(this.state.userData.trips).find(item=>props.match.params.tripId === item._id) } addToList={ this.addCuratedToUserTrips } secondsToString={ this.secondsToString } /> } />
-                            <Route exact path={"/private/trips"} render={ (props)=><TripList match={ props.match } title={"Your Road Trip Collection"} trips={ this.state.userData.trips } addToList={ this.addUserToCuratedTrips } secondsToString={ this.secondsToString } /> } />
-                            <Route path={"/private/trips/:tripId"} render={ (props)=><TripDetails match={ props.match } trip={ this.state.userData.trips.concat(this.state.userData.trips).find(item=>props.match.params.tripId === item._id) } addToList={ this.addUserToCuratedTrips } removeFromList={ this.deleteUserTrip } secondsToString={ this.secondsToString } /> } />
+                            <Route exact path={"/tripbuilder"} render={ (props) =>
+                                <TripBuilder 
+                                    match={ props.match }
+                                    epicRoadTrip={ this.state.epicRoadTrip }
+                                    searchResults={ this.state.searchResults }
+                                    waypointList={ this.state.waypointList } 
+                                    mapLoading={ this.state.mapLoading } 
+                                    submitHandler={ this.searchGoogleMapsPlaces } 
+                                    findOptimalRoute={ this.findOptimalRoute } 
+                                    removeWaypoint={ this.removeWaypoint } 
+                                /> }
+                            />
+                            <Route exact path={"/curated/trips"} render={ (props) => 
+                                <TripList 
+                                    match={ props.match } 
+                                    title={"Curated Road Trips"} 
+                                    trips={ this.state.curatedTrips } 
+                                    addToList={ this.addCuratedToUserTrips } 
+                                    secondsToString={ this.secondsToString } 
+                                /> } 
+                            />
+                            <Route path={"/curated/trips/:tripId"} render={ (props) => 
+                                <TripDetails 
+                                    match={ props.match } 
+                                    trip={ this.state.curatedTrips.concat(this.state.userData.trips).find(item=>props.match.params.tripId === item._id) } 
+                                    addToList={ this.addCuratedToUserTrips } 
+                                    secondsToString={ this.secondsToString } 
+                                /> } 
+                            />
+                            <Route exact path={"/private/trips"} render={ (props) => 
+                                <TripList 
+                                    match={ props.match } 
+                                    title={"Your Road Trip Collection"} 
+                                    trips={ this.state.userData.trips } 
+                                    addToList={ this.addUserToCuratedTrips } 
+                                    secondsToString={ this.secondsToString } 
+                                /> } 
+                            />
+                            <Route path={"/private/trips/:tripId"} render={ (props) => 
+                                <TripDetails 
+                                    match={ props.match } 
+                                    trip={ this.state.userData.trips.concat(this.state.userData.trips).find(item=>props.match.params.tripId === item._id) } 
+                                    addToList={ this.addUserToCuratedTrips } 
+                                    removeFromList={ this.deleteUserTrip } 
+                                    secondsToString={ this.secondsToString } 
+                                /> }
+                            />
+                            {/* <Route exact path={"/about"} render={ (props) => 
+                                <MapDisplay 
+                                    searchResults={ this.state.searchResults } 
+                                    travelMode={ this.state.travelMode } 
+                                    epicRoadTrip={ this.epicRoadTrip }
+                                    errorHandler={ this.errorHandler }
+                                /> } 
+                            />  */}
+                            <Route exact path={"/login"} render={ (props) => 
+                                <LoginForm
+                                    match={ props.match }
+                                    newUser={ false }
+                                    submitHandler = { this.props.logUserIn }
+                                    /> }
+                            />
+                            <Route exact path={"/register"} render={ (props) => 
+                                <LoginForm
+                                    match={ props.match }
+                                    newUser={ true }
+                                    submitHandler = { this.props.createNewUser }
+                                /> }
+                            />
                         </section>
-                    </main>
+                    </div>
                 </Switch>
                 <footer>
                 </footer>
