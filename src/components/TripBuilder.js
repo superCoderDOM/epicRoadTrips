@@ -31,7 +31,8 @@ class TripBuilder extends React.Component{
                         secondsToString={ this.props.secondsToString }
                         title={ this.props.title }
                         trips={ this.props.trips } 
-                        waypointList={ this.props.waypointList } 
+                        waypointList={ this.props.waypointList }
+                        epicRoadTrip={ this.props.epicRoadTrip } 
                     />
                 </div>
             </section>

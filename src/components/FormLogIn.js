@@ -1,12 +1,11 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 class FormLogIn extends React.Component{
     render(){
         return(
             <section className="login-form">
                 <form onSubmit={ this.props.submitHandler }>
-                    { (this.props.newUser && this.props.match.url === '/register') ? 
+                    { this.props.newUser? 
                         (<div>
                             <h1> Welcome to Epic Road Trips </h1>
                             <div className="form-group">
@@ -28,8 +27,8 @@ class FormLogIn extends React.Component{
                     </div>
                     <h2> Thanks for joining our community! </h2>
                     <div className="button-group">
-                        <NavLink className="btn btn-secondary" to="/"> CANCEL </NavLink>
-                        <input className="btn btn-secondary" type="submit" value={ this.props.clickHandler } />
+                        <button className="btn btn-secondary" onClick={ this.props.closeLoginForm }> CANCEL </button>
+                        <input className="btn btn-secondary" type="submit" onSubmit={ this.props.submitHandler } />
                     </div>
                 </form>
             </section>

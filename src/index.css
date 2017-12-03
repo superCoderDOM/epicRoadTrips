@@ -74,6 +74,7 @@ nav img {
 }
 
 .login-form {
+  background-color: snow;
   border: thin solid grey;
   border-radius: 4px;
   box-shadow: 2px 2px 5px grey;
@@ -83,6 +84,7 @@ nav img {
   top: 50%;
   transform: translate(-50%, -50%);
   width: 50vw;
+  z-index: 200;
 }
 
 .login-form h1 {

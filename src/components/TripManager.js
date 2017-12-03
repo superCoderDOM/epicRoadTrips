@@ -1,4 +1,5 @@
 import React from 'react';
+import OptimizedRoute from './OptimizedRoute';
 
 class TripManager extends React.Component{
     render(){
@@ -22,6 +23,12 @@ class TripManager extends React.Component{
                     <div>
                         { waypointsJSX }
                     </div>
+                    {this.props.epicRoadTrip.testRoadTrip?
+                        <OptimizedRoute 
+                            epicRoadTrip={ this.props.epicRoadTrip }
+                            secondsToString={ this.props.secondsToString } 
+                        /> : ""
+                    }
                 </div>
             </div>
         );

@@ -32,12 +32,14 @@ class App extends React.Component{
         this.state = {
             jwt: '',
             userData: {}, // user document saved in database minus password
+            newUser: true,
             waypointList: [],
             travelMode: 'driving',
             searchResults: [],
             epicRoadTrip: {},
             curatedTrips: mockCuratedTrips,
             mapLoading: false,
+            showLoginForm: false,
         };
 
         // bindings
@@ -46,14 +48,18 @@ class App extends React.Component{
         this.addUserToCuratedTrips = this.addWaypoint.bind(this);
         this.addWaypoint = this.addWaypoint.bind(this);
         this.createNewUser = this.createNewUser.bind(this);
+        this.closeLoginForm = this.closeLoginForm.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.deleteUserTrip = this.deleteUserTrip.bind(this);
         this.errorHandler = this.errorHandler.bind(this);
+        this.fetchUserData = this.fetchUserData.bind(this);
         this.findOptimalRoute = this.findOptimalRoute.bind(this);
         this.getAllCuratedTrips = this.getAllCuratedTrips.bind(this);
         this.logUserIn = this.logUserIn.bind(this);
         this.logUserOut = this.logUserOut.bind(this);
         this.removeWaypoint = this.removeWaypoint.bind(this);
+        this.requestLogin = this.requestLogin.bind(this);
+        this.requestRegistration = this.requestRegistration.bind(this);
         this.searchGoogleMapsPlaces = this.searchGoogleMapsPlaces.bind(this);
         this.secondsToString = this.secondsToString.bind(this);
         this.setPage = this.setPage.bind(this);
@@ -86,6 +92,8 @@ class App extends React.Component{
         .then(newUserWithID => {
             this.setState({
                 userData: newUserWithID.data,
+                newUser: false,
+                showLoginForm: false,
             });
         })
         .catch(error => {
@@ -113,11 +121,36 @@ class App extends React.Component{
             this.setState({
                 jwt: response.data.token,
                 userData: response.data.userData,
+                newUser: false,
+                showLoginForm: false,
             });
+            localStorage.token = response.data.token;
         })
         .catch(error => {
             this.errorHandler(error);
         });
+        event.target.userEmail.value = "";
+        event.target.userPassword.value = "";
+    }
+
+    fetchUserData(){
+
+        // make local copy of user data
+        let user = this.state.userData;        
+
+        // fetch User document from database
+        axios.get(`/private/${ user._id }`, 
+        { headers: { authorization: this.state.jwt } })
+        .then(reqUser => {
+            this.setState({
+                userData: reqUser.data,
+                newUser: false,
+                showLoginForm: false,
+            });
+        })
+        .catch(error => {
+            this.errorHandler(error);
+        });    
     }
 
     // ↓↓↓↓ UPDATE|DELETE OPERATIONS FOR AUTHORIZED USERS ONLY ↓↓↓↓
@@ -130,14 +163,14 @@ class App extends React.Component{
 
         // checks to make sure input data is valid
 
-        // create new user
+        // create User update object
         let userUpdateData = {
             email: event.target.userEmail.value,
             password: event.target.userPassword.value,
             name: event.target.userName.value,
+            // trips: --> POPULATED SERVER-SIDE <--
             // created: --> POPULATED SERVER-SIDE <--
             // updated: --> POPULATED SERVER-SIDE <--
-            // trips: --> POPULATED SERVER-SIDE <--
         }
 
         // add new User to database
@@ -173,6 +206,19 @@ class App extends React.Component{
         .catch(error => {
             this.errorHandler(error);
         })
+    }
+
+    // DELETE - Log User out by deleting data locally
+    logUserOut(){
+        this.setState({
+            jwt: '',
+            userData: {},
+            waypointList: [],
+            travelMode: 'driving',
+            searchResults: [],
+            epicRoadTrip: {},
+        });
+        localStorage.token = "";
     }
 
     /*=======================================
@@ -466,6 +512,48 @@ class App extends React.Component{
         this.setState({
             waypointList: [...event.target.origin.value, event.target.waypoints.value],
         });
+        
+        localStorage.epicData.waypointList = this.state.waypointList;
+        localStorage.epicData.searchResults = this.state.searchResults;
+    }
+
+    closeLoginForm(){
+        this.setState({
+            showLoginForm: false,
+        });
+    }
+
+    // Lifecycle method, scripts will run before page renders
+    componentWillMount(){
+        // token is present
+        if (localStorage.token){
+            // this.getAllCuratedTrips();
+            this.setState({
+                token: localStorage.token,
+            });
+            this.fetchUserData();
+        }
+        // waypoint data is present
+        if (localStorage.epicData){
+            this.setState({
+                waypointList: localStorage.epicData.waypointList,
+                searchResults: localStorage.epicData.searchResults,    
+            });
+        }
+    }
+
+    // Save data locally when component unmounts
+    componentWillUnmout(){
+        localStorage.epicData = {
+            userData: this.state.userData,
+            waypointList: this.state.userData,
+            searchResults: this.state.searchResults,
+        };
+    }
+
+    // Handle errors
+    errorHandler(error){
+        console.log(error);
     }
 
     // Remove waypoint from current list
@@ -475,29 +563,21 @@ class App extends React.Component{
         });
     }
 
-    // Lifecycle method, scripts will run before page renders
-    componentWillMount(){
-        // this.getAllCuratedTrips();
-    }
-
-    // handles errors
-    errorHandler(error){
-        console.log(error);
-    }
-
-    // log out User
-    logUserOut(){
+    requestLogin(){
         this.setState({
-            jwt: '',
-            userData: {},
-            waypointList: [],
-            travelMode: 'driving',
-            searchResults: [],
-            epicRoadTrip: {},
+            newUser: false,
+            showLoginForm: true,
         });
     }
 
-    // transforms time sotred in seconds to days/hours/minutes/seconds
+    requestRegistration(){
+        this.setState({
+            newUser: true,
+            showLoginForm: true,
+        });
+    }
+
+    // Transforms time sotred in seconds to days/hours/minutes/seconds
     secondsToString(seconds){
         const numDays = Math.floor(seconds / 86400);
         const numHours = Math.ceil((seconds % 86400) / 3600);
@@ -507,7 +587,7 @@ class App extends React.Component{
         return numDays + (numDays > 1 ? " days " : numDays === 1 ? " day " : "") + numHours + " hours "; // + numMinutes + " minutes " + numSeconds + " seconds";
     }
 
-    // set page
+    // Set page
     setPage(currentPage){
         this.setState({
             page: currentPage,
@@ -522,10 +602,19 @@ class App extends React.Component{
                     {/* <script src={`https://maps.googleapis.com/maps/api/js?key=${ googleMapsAPIKey }&v=3.exp&libraries=geometry,drawing,places`}></script> */}
                 </Helmet>
                 <NavBar 
+                    logUserOut={ this.logUserOut }
                     numUserTrips={ this.state.userData.trips ? this.state.userData.trips.length : 0 }
-                    createNewUser={ this.createNewUser }
-                    logUserOut={ this.logUserOut } 
+                    requestRegistration={ this.requestRegistration }
+                    requestLogin={ this.requestLogin }
+                    userName={ this.state.userData.name }
                 />
+                {this.state.showLoginForm? 
+                    <LoginForm
+                        closeLoginForm={ this.closeLoginForm }
+                        newUser={ this.state.newUser }
+                        submitHandler = { this.state.newUser? this.createNewUser : this.logUserIn }
+                    /> : "" 
+                }
                 <Switch>
                     <Route exact path={"/"} render={ (props) => 
                         <Home 
@@ -542,12 +631,13 @@ class App extends React.Component{
                                 <TripBuilder 
                                     match={ props.match }
                                     epicRoadTrip={ this.state.epicRoadTrip }
-                                    searchResults={ this.state.searchResults }
-                                    waypointList={ this.state.waypointList } 
-                                    mapLoading={ this.state.mapLoading } 
-                                    submitHandler={ this.searchGoogleMapsPlaces } 
                                     findOptimalRoute={ this.findOptimalRoute } 
+                                    mapLoading={ this.state.mapLoading } 
                                     removeWaypoint={ this.removeWaypoint } 
+ß                                    searchResults={ this.state.searchResults }
+                                    secondsToString={ this.secondsToString } 
+                                    submitHandler={ this.searchGoogleMapsPlaces } 
+                                    waypointList={ this.state.waypointList } 
                                 /> }
                             />
                             <Route exact path={"/curated/trips"} render={ (props) => 
@@ -593,20 +683,6 @@ class App extends React.Component{
                                     errorHandler={ this.errorHandler }
                                 /> } 
                             />  */}
-                            <Route exact path={"/login"} render={ (props) => 
-                                <LoginForm
-                                    match={ props.match }
-                                    newUser={ false }
-                                    submitHandler = { this.props.logUserIn }
-                                    /> }
-                            />
-                            <Route exact path={"/register"} render={ (props) => 
-                                <LoginForm
-                                    match={ props.match }
-                                    newUser={ true }
-                                    submitHandler = { this.props.createNewUser }
-                                /> }
-                            />
                         </section>
                     </div>
                 </Switch>
