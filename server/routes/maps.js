@@ -187,6 +187,9 @@ router.post('/findroute', (req, res) => {
         ];
     }
 
+    // Prevent default server timeout (2 minutes || 120,000ms)
+    req.setTimeout(0); // no timeout
+
     // Call optimalRoute as server would do
     roadtrip.optimalRoute(allWaypoints, mode)
     .then(epicRoadTrip => {

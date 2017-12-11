@@ -16,7 +16,8 @@ class TripBuilder extends React.Component{
                         <MapRenderer 
                             epicRoadTrip={ this.props.epicRoadTrip }
                             searchResults={ this.props.searchResults } 
-                            style={ retroMapStyles } isMarkerShown={ true }/>
+                            style={ retroMapStyles } isMarkerShown={ true }
+                        />
                         <div className={ this.props.mapLoading? "loading" : "hidden" }>
                             <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
                             <span className="sr-only">Loading...</span>
@@ -27,7 +28,9 @@ class TripBuilder extends React.Component{
                         addWaypointToList={ this.props.addWaypointToList } 
                         findOptimalRoute={ this.props.findOptimalRoute }
                         match={ this.props.match }
+                        openRoadTripFormNew={ this.props.openRoadTripFormNew }
                         removeWaypoint = { this.props.removeWaypoint }
+                        resetStopOvers = { this.props.resetStopOvers }
                         secondsToString={ this.props.secondsToString }
                         title={ this.props.title }
                         trips={ this.props.trips } 

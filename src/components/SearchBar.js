@@ -9,7 +9,7 @@ class SearchBar extends React.Component{
                     <div className="row">
                         <div className="input-group">
                             <button className="input-group-addon" type="submit"><i className="material-icons">add_location</i></button>
-                            <input type="text" className="form-control " name="keywords" placeholder="Search places by keywords" width="500px" />
+                            <input type="search" className="form-control " name="keywords" placeholder="Search places by keywords" width="500px" />
                         </div>
                     </div>
                 </form>

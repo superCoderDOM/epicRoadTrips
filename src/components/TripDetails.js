@@ -46,8 +46,8 @@ class TripDetails extends React.Component{
                     <div className="media-body col-4">
                         <h2> { trip.trip_name } </h2>
                         <ul>
-                            <li><strong> Distance: </strong> { trip.estimated_travel_distance } </li>
-                            <li><strong> Duration: </strong> { trip.estimated_travel_duration } </li>
+                            <li><strong> Distance: </strong> { Math.floor(trip.estimated_travel_distance / 1000) } km </li>
+                            <li><strong> Duration: </strong> { this.props.secondsToString(trip.estimated_travel_duration) } </li>
                             <li><strong> Stop Overs: </strong><ul> { tripRouteJSX } </ul></li>
                             {<li><strong> Votes: </strong> { trip.vote_count } <button onClick={ this.props.voteUp }><i className="material-icons">thumb_up</i></button></li>}
                             <li><strong> Saves: </strong> { trip.save_count } </li>

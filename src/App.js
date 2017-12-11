@@ -16,6 +16,7 @@ import NavBar from './components/NavBar';
 import LoginForm from './components/FormLogIn'
 import TripBuilder from './components/TripBuilder';
 import TripDetails from './components/TripDetails';
+import TripForm from './components/FormTripInfo'
 import TripList from './components/TripList';
 // import MapDisplay from './components/MapDisplay';
 
@@ -32,6 +33,7 @@ class App extends React.Component{
         this.state = {
             jwt: '',
             userData: {}, // user document saved in database minus password
+            newTrip: false,
             newUser: true,
             waypointList: [],
             travelMode: 'driving',
@@ -40,6 +42,7 @@ class App extends React.Component{
             curatedTrips: mockCuratedTrips,
             mapLoading: false,
             showLoginForm: false,
+            showTripForm: false,
         };
 
         // bindings
@@ -49,6 +52,7 @@ class App extends React.Component{
         this.addWaypoint = this.addWaypoint.bind(this);
         this.createNewUser = this.createNewUser.bind(this);
         this.closeLoginForm = this.closeLoginForm.bind(this);
+        this.closeTripForm = this.closeTripForm.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.deleteUserTrip = this.deleteUserTrip.bind(this);
         this.errorHandler = this.errorHandler.bind(this);
@@ -57,9 +61,12 @@ class App extends React.Component{
         this.getAllCuratedTrips = this.getAllCuratedTrips.bind(this);
         this.logUserIn = this.logUserIn.bind(this);
         this.logUserOut = this.logUserOut.bind(this);
+        this.openRoadTripFormEdit = this.openRoadTripFormEdit.bind(this);
+        this.openRoadTripFormNew = this.openRoadTripFormNew.bind(this);
         this.removeWaypoint = this.removeWaypoint.bind(this);
         this.requestLogin = this.requestLogin.bind(this);
         this.requestRegistration = this.requestRegistration.bind(this);
+        this.resetStopOvers = this.resetStopOvers.bind(this);
         this.searchGoogleMapsPlaces = this.searchGoogleMapsPlaces.bind(this);
         this.secondsToString = this.secondsToString.bind(this);
         this.setPage = this.setPage.bind(this);
@@ -124,7 +131,7 @@ class App extends React.Component{
                 newUser: false,
                 showLoginForm: false,
             });
-            localStorage.token = response.data.token;
+            localStorage.setItem('epicToken', JSON.stringify(response.data.token));        
         })
         .catch(error => {
             this.errorHandler(error);
@@ -188,9 +195,9 @@ class App extends React.Component{
     // DELETE - Remove user from database
     deleteUser(){
 
-        // make local copy of user data
-        let user = Array.from(this.state.userData);
-
+        // make deep clone copy of user data
+        let user = JSON.parse(JSON.stringify(this.state.userData));
+        
         // delete User document from database
         axios.delete(`/private/${ user._id }`, 
             { headers: { authorization: this.state.jwt } })
@@ -218,7 +225,8 @@ class App extends React.Component{
             searchResults: [],
             epicRoadTrip: {},
         });
-        localStorage.token = "";
+        localStorage.epicData = '';
+        localStorage.epicToken = '';
     }
 
     /*=======================================
@@ -228,9 +236,9 @@ class App extends React.Component{
     // CREATE - Add Curated Trip as NEW User Trip document
     addCuratedToUserTrips(tripID){
 
-        // make local copy of user data
-        let user = Array.from(this.state.userData);
-
+        // make deep clone copy of user data
+        let user = JSON.parse(JSON.stringify(this.state.userData));
+        
         // find required Curated Trip
         let reqCuratedTrip = this.state.curatedTrips.find(trip=>trip._id === tripID);
 
@@ -247,7 +255,7 @@ class App extends React.Component{
         };
 
         // update database
-        axios.post(`/${ user._id }/trips`,
+        axios.post(`/private/${ user._id }/trips`,
             { newUserTrip: newUserTrip },
             { headers: { authorization: this.state.jwt } })
         .then(userTripsWithNewTripID => {
@@ -271,8 +279,8 @@ class App extends React.Component{
         // prevent page reload
         event.preventDefault();
         
-        // make local copy of user data
-        let user = Array.from(this.state.userData);
+        // make deep clone copy of user data
+        let user = JSON.parse(JSON.stringify(this.state.userData));
 
         // create new User Trip entry
         let newUserTrip = {
@@ -286,7 +294,7 @@ class App extends React.Component{
         };
 
         // update database
-        axios.post(`/${ user._id }/trips`, 
+        axios.post(`/private/${ user._id }/trips`, 
             { newUserTrip: newUserTrip }, 
             { headers: { authorization: this.state.jwt } })
         .then(userTripsWithNewTripID => {
@@ -297,6 +305,7 @@ class App extends React.Component{
             // update state
             this.setState({
                 userData: user,
+                showTripForm: false,
             });
         })
         .catch(error => {
@@ -310,8 +319,8 @@ class App extends React.Component{
         // prevent page reload
         event.preventDefault();
 
-        // find required User Trip
-        let user = Array.from(this.state.userData);
+        // make deep clone copy of user data
+        let user = JSON.parse(JSON.stringify(this.state.userData));
         let reqUserTrip = user.trips.find(trip=>trip._id === tripID);
         
         // create update User Trip object
@@ -349,9 +358,9 @@ class App extends React.Component{
     // DELETE - Remove User Trip from database
     deleteUserTrip(tripID){
 
-        // make local copy of user data
-        let user = Array.from(this.state.userData._id);
-
+        // make deep clone copy of user data
+        let user = JSON.parse(JSON.stringify(this.state.userData));
+        
         axios.delete(`/private/${ user._id }/trips/${ tripID }`,
             { headers: { authorization: this.state.jwt } })
         .then(deletedTrip => {
@@ -461,6 +470,9 @@ class App extends React.Component{
                 epicRoadTrip: response.data,
                 mapLoading: false,
             });
+            localStorage.epicData.epicRoadTrip = JSON.stringify(response.data);            
+            localStorage.epicData.searchResults = JSON.stringify(this.state.searchResults);
+            localStorage.epicData.waypointList = JSON.stringify(this.state.waypointList);
         })
         .catch(error=>{
             this.errorHandler(error);
@@ -495,6 +507,15 @@ class App extends React.Component{
                 searchResults: [...(new Set([...this.state.searchResults, response.data[0]]))],
                 waypointList: [...(new Set([...this.state.waypointList, waypointName]))],
             });
+
+            // Update local storage
+            const epicData = {
+                epicRoadTrip: this.state.epicRoadTrip,
+                searchResults: this.state.searchResults,
+                waypointList: this.state.waypointList,
+            };
+            localStorage.setItem('epicData', JSON.stringify(epicData));
+    
         })
         .catch(error => {
             this.errorHandler(error);
@@ -513,8 +534,8 @@ class App extends React.Component{
             waypointList: [...event.target.origin.value, event.target.waypoints.value],
         });
         
-        localStorage.epicData.waypointList = this.state.waypointList;
-        localStorage.epicData.searchResults = this.state.searchResults;
+        localStorage.epicData.waypointList = JSON.stringify(this.state.waypointList);
+        localStorage.epicData.searchResults = JSON.stringify(this.state.searchResults);
     }
 
     closeLoginForm(){
@@ -523,32 +544,60 @@ class App extends React.Component{
         });
     }
 
+    closeTripForm(){
+        this.setState({
+            showTripForm: false,
+        });
+    }
+
     // Lifecycle method, scripts will run before page renders
     componentWillMount(){
-        // token is present
-        if (localStorage.token){
+
+        // fetch Trip Builder data if present
+        const epicData = JSON.parse(localStorage.getItem('epicData'));
+    
+        // fetch token from local storage if present
+        const epicToken = JSON.parse(localStorage.getItem('epicToken'));
+        
+        // update local state accordingly
+        if (epicData && epicToken){
+            this.setState({
+                jwt: epicToken,
+                epicRoadTrip: epicData.epicRoadTrip,
+                searchResults: epicData.searchResults,    
+                waypointList: epicData.waypointList,
+            });
+            this.fetchUserData();            
+        }else if (epicData){
+            this.setState({
+                epicRoadTrip: epicData.epicRoadTrip,
+                searchResults: epicData.searchResults,    
+                waypointList: epicData.waypointList,
+            });
+        } else if (epicToken){
             // this.getAllCuratedTrips();
             this.setState({
-                token: localStorage.token,
+                jwt: epicToken,
             });
             this.fetchUserData();
-        }
-        // waypoint data is present
-        if (localStorage.epicData){
-            this.setState({
-                waypointList: localStorage.epicData.waypointList,
-                searchResults: localStorage.epicData.searchResults,    
-            });
         }
     }
 
     // Save data locally when component unmounts
     componentWillUnmout(){
-        localStorage.epicData = {
-            userData: this.state.userData,
-            waypointList: this.state.userData,
+
+        // build epicData object
+        const epicData = {
+            epicRoadTrip: this.state.epicRoadTrip,
             searchResults: this.state.searchResults,
+            waypointList: this.state.waypointList,
         };
+
+        // save current Trip Builder progress to local memory
+        localStorage.setItem('epicData', JSON.stringify(epicData));
+
+        // save current session token to local storage
+        localStorage.setItem('epicToken', JSON.stringify(this.state.jwt));        
     }
 
     // Handle errors
@@ -556,13 +605,31 @@ class App extends React.Component{
         console.log(error);
     }
 
+    // Open road trip form in edit existing trip mode
+    openRoadTripFormEdit(){
+        this.setState({
+            newTrip: false,
+            showTripForm: true,
+        });
+    }
+    
+    // Open road trip form in new entry mode
+    openRoadTripFormNew(){
+        this.setState({
+            newTrip: true,
+            showTripForm: true,
+        });
+    }
+
     // Remove waypoint from current list
     removeWaypoint(value){
         this.setState({
+            searchResults: [... this.state.searchResults.filter(item => item.formatted_address !== value && item.name !== value)],
             waypointList: [...this.state.waypointList.filter(waypoint => waypoint !== value)],
         });
     }
 
+    // Open user login form in login mode
     requestLogin(){
         this.setState({
             newUser: false,
@@ -570,11 +637,27 @@ class App extends React.Component{
         });
     }
 
+    // Open user login form in registration mode
     requestRegistration(){
         this.setState({
             newUser: true,
             showLoginForm: true,
         });
+    }
+
+    // Reset Trip Builder lists of waypoints and search results
+    resetStopOvers(){
+        this.setState({
+            searchResults: [],
+            waypointList: [],
+        });
+
+        // Update local storage
+        const epicData = {
+            waypointList: [],
+            searchResults: [],
+        };
+        localStorage.setItem('epicData', JSON.stringify(epicData));
     }
 
     // Transforms time sotred in seconds to days/hours/minutes/seconds
@@ -615,6 +698,16 @@ class App extends React.Component{
                         submitHandler = { this.state.newUser? this.createNewUser : this.logUserIn }
                     /> : "" 
                 }
+                {this.state.showTripForm?
+                    <TripForm
+                        closeTripForm={ this.closeTripForm }
+                        epicRoadTrip={ this.state.epicRoadTrip }
+                        newTrip={ this.state.newTrip }
+                        secondsToString={ this.secondsToString } 
+                        submitHandler={ this.state.newTrip? this.addNewTripToUserTrips : this.updateUserTrip }
+                        waypointList={ this.state.waypointList }
+                    /> : ""
+                }
                 <Switch>
                     <Route exact path={"/"} render={ (props) => 
                         <Home 
@@ -632,9 +725,11 @@ class App extends React.Component{
                                     match={ props.match }
                                     epicRoadTrip={ this.state.epicRoadTrip }
                                     findOptimalRoute={ this.findOptimalRoute } 
-                                    mapLoading={ this.state.mapLoading } 
-                                    removeWaypoint={ this.removeWaypoint } 
-ß                                    searchResults={ this.state.searchResults }
+                                    mapLoading={ this.state.mapLoading }
+                                    openRoadTripFormNew={ this.openRoadTripFormNew }
+                                    removeWaypoint={ this.removeWaypoint }
+                                    resetStopOvers={ this.resetStopOvers }
+                                    searchResults={ this.state.searchResults }
                                     secondsToString={ this.secondsToString } 
                                     submitHandler={ this.searchGoogleMapsPlaces } 
                                     waypointList={ this.state.waypointList } 

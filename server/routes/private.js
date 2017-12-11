@@ -26,8 +26,8 @@ router.use(express.urlencoded({extended:true}));
 // requires: req.headers.authorization
 function logger(req, res, next){
     // log the path of the request
-    console.log('Request received:', req.originalUrl);
-    console.log(req.headers);
+    // console.log('Request received:', req.originalUrl);
+    // console.log(req.headers);
     // VERIFY json web token
     let tokenToValidate = req.headers.authorization;
 
@@ -38,7 +38,7 @@ function logger(req, res, next){
             return res.status(403);
         }
         // continue with request if validated
-        console.log(decodedPayload);
+        // console.log(decodedPayload);
         next();
     });
 }
@@ -59,9 +59,12 @@ function logger(req, res, next){
 router.post('/:userId/trips/', logger, (req, res) => {
     
     // code to check if request is valid
+    console.log(req.body.newUserTrip);
 
     // check that newCuratedTrip object exists
     if(req.body.newUserTrip){
+
+        const newUserTrip = req.body.newUserTrip
         
         // check that all required fields are present
         if( newUserTrip.trip_name &&
@@ -71,10 +74,10 @@ router.post('/:userId/trips/', logger, (req, res) => {
             newUserTrip.estimated_travel_duration
         ){
             // create newUserTrip object from req.body data
-            const newUserTrip = {
-                trip_name: newUserTrip.name,
+            const newTripData = {
+                trip_name: newUserTrip.trip_name,
                 waypoint_list: newUserTrip.waypoint_list,
-                optimized_route: newUserTrip.ptimized_route,
+                optimized_route: newUserTrip.optimized_route,
                 estimated_travel_distance: newUserTrip.estimated_travel_distance,
                 estimated_travel_duration: newUserTrip.estimated_travel_duration,
                 created: moment(),
@@ -84,7 +87,7 @@ router.post('/:userId/trips/', logger, (req, res) => {
             // create new 'CuratedTrips' document
             Users.findById(req.params.userId)
             .then(user => {
-                user.trips.push(newUserTrip)
+                user.trips.push(newTripData)
                 return user.save();
             })
             .then(user => {    

@@ -31,7 +31,7 @@ class TripCard extends React.Component{
                     <Link to={`/curated/trips/${ trip._id }`}>
                         <h4 className="card-title"> { trip.trip_name } </h4>
                     </Link>
-                    <p className="card-text h6"> { trip.estimated_travel_distance / 1000 } km </p>
+                    <p className="card-text h6"> { Math.floor(trip.estimated_travel_distance / 1000) } km </p>
                     <p className="card-text h6"> { this.props.secondsToString(trip.estimated_travel_duration) } </p>
                     <p className="card-text h6"> { trip.description } </p>
                     <p className="card-text h6 mt-3"> Created: { trip.created } </p>

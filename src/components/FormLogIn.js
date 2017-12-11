@@ -19,13 +19,16 @@ class FormLogIn extends React.Component{
                     }
                     <div className="form-group">
                         <label htmlFor="userEmail"> Email address </label>
-                        <input className="form-control" type="text" id="userEmail" name="userEmail" placeholder="travel.junky@epicroadtrips.org" />
+                        <input className="form-control" type="email" id="userEmail" name="userEmail" placeholder="travel.junky@epicroadtrips.org" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="userPassword"> Password </label>
-                        <input className="form-control" type="text" id="userPassword" name="userPassword" placeholder="Y0urP@55w0rD" />
+                        <input className="form-control" type="password" id="userPassword" name="userPassword" placeholder="Y0urP@55w0rD" />
                     </div>
-                    <h2> Thanks for joining our community! </h2>
+                    { this.props.newUser?
+                        <h2> Thanks for joining our community! </h2> :
+                        <h2> Thanks for being part of our community! </h2>
+                    }
                     <div className="button-group">
                         <button className="btn btn-secondary" onClick={ this.props.closeLoginForm }> CANCEL </button>
                         <input className="btn btn-secondary" type="submit" onSubmit={ this.props.submitHandler } />

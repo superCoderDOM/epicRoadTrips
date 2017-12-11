@@ -12,7 +12,7 @@ class OptimizedRoute extends React.Component{
         return(
             <div>
                 <h2 className="mt-2"> Optimized Route </h2>
-                <p> Distance: { this.props.epicRoadTrip.totalTripDistance / 1000 } km </p>
+                <p> Distance: { Math.floor(this.props.epicRoadTrip.totalTripDistance / 1000) } km </p>
                 <p> Duration: { this.props.secondsToString(this.props.epicRoadTrip.totalTripDuration) } </p>
                 <ul>
                     { epicRoadTripJSX }
