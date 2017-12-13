@@ -624,7 +624,7 @@ class App extends React.Component{
     // Remove waypoint from current list
     removeWaypoint(value){
         this.setState({
-            searchResults: [... this.state.searchResults.filter(item => item.formatted_address !== value && item.name !== value)],
+            searchResults: [...this.state.searchResults.filter(item => item.formatted_address !== value && item.name !== value)],
             waypointList: [...this.state.waypointList.filter(waypoint => waypoint !== value)],
         });
     }
@@ -718,68 +718,64 @@ class App extends React.Component{
                             secondsToString={ this.secondsToString }
                         /> } 
                     />
-                    <div className="container-fluid">
-                        <section>
-                            <Route exact path={"/tripbuilder"} render={ (props) =>
-                                <TripBuilder 
-                                    match={ props.match }
-                                    epicRoadTrip={ this.state.epicRoadTrip }
-                                    findOptimalRoute={ this.findOptimalRoute } 
-                                    mapLoading={ this.state.mapLoading }
-                                    openRoadTripFormNew={ this.openRoadTripFormNew }
-                                    removeWaypoint={ this.removeWaypoint }
-                                    resetStopOvers={ this.resetStopOvers }
-                                    searchResults={ this.state.searchResults }
-                                    secondsToString={ this.secondsToString } 
-                                    submitHandler={ this.searchGoogleMapsPlaces } 
-                                    waypointList={ this.state.waypointList } 
-                                /> }
-                            />
-                            <Route exact path={"/curated/trips"} render={ (props) => 
-                                <TripList 
-                                    match={ props.match } 
-                                    title={"Curated Road Trips"} 
-                                    trips={ this.state.curatedTrips } 
-                                    addToList={ this.addCuratedToUserTrips } 
-                                    secondsToString={ this.secondsToString } 
-                                /> } 
-                            />
-                            <Route path={"/curated/trips/:tripId"} render={ (props) => 
-                                <TripDetails 
-                                    match={ props.match } 
-                                    trip={ this.state.curatedTrips.concat(this.state.userData.trips).find(item=>props.match.params.tripId === item._id) } 
-                                    addToList={ this.addCuratedToUserTrips } 
-                                    secondsToString={ this.secondsToString } 
-                                /> } 
-                            />
-                            <Route exact path={"/private/trips"} render={ (props) => 
-                                <TripList 
-                                    match={ props.match } 
-                                    title={"Your Road Trip Collection"} 
-                                    trips={ this.state.userData.trips } 
-                                    addToList={ this.addUserToCuratedTrips } 
-                                    secondsToString={ this.secondsToString } 
-                                /> } 
-                            />
-                            <Route path={"/private/trips/:tripId"} render={ (props) => 
-                                <TripDetails 
-                                    match={ props.match } 
-                                    trip={ this.state.userData.trips.concat(this.state.userData.trips).find(item=>props.match.params.tripId === item._id) } 
-                                    addToList={ this.addUserToCuratedTrips } 
-                                    removeFromList={ this.deleteUserTrip } 
-                                    secondsToString={ this.secondsToString } 
-                                /> }
-                            />
-                            {/* <Route exact path={"/about"} render={ (props) => 
-                                <MapDisplay 
-                                    searchResults={ this.state.searchResults } 
-                                    travelMode={ this.state.travelMode } 
-                                    epicRoadTrip={ this.epicRoadTrip }
-                                    errorHandler={ this.errorHandler }
-                                /> } 
-                            />  */}
-                        </section>
-                    </div>
+                    <Route exact path={"/tripbuilder"} render={ (props) =>
+                        <TripBuilder 
+                            match={ props.match }
+                            epicRoadTrip={ this.state.epicRoadTrip }
+                            findOptimalRoute={ this.findOptimalRoute } 
+                            mapLoading={ this.state.mapLoading }
+                            openRoadTripFormNew={ this.openRoadTripFormNew }
+                            removeWaypoint={ this.removeWaypoint }
+                            resetStopOvers={ this.resetStopOvers }
+                            searchResults={ this.state.searchResults }
+                            secondsToString={ this.secondsToString } 
+                            submitHandler={ this.searchGoogleMapsPlaces } 
+                            waypointList={ this.state.waypointList } 
+                        /> }
+                    />
+                    <Route exact path={"/curated/trips"} render={ (props) => 
+                        <TripList 
+                            match={ props.match } 
+                            title={"Curated Road Trips"} 
+                            trips={ this.state.curatedTrips } 
+                            addToList={ this.addCuratedToUserTrips } 
+                            secondsToString={ this.secondsToString } 
+                        /> } 
+                    />
+                    <Route path={"/curated/trips/:tripId"} render={ (props) => 
+                        <TripDetails 
+                            match={ props.match } 
+                            trip={ this.state.curatedTrips.concat(this.state.userData.trips).find(item=>props.match.params.tripId === item._id) } 
+                            addToList={ this.addCuratedToUserTrips } 
+                            secondsToString={ this.secondsToString } 
+                        /> } 
+                    />
+                    <Route exact path={"/private/trips"} render={ (props) => 
+                        <TripList 
+                            match={ props.match } 
+                            title={"Your Road Trip Collection"} 
+                            trips={ this.state.userData.trips } 
+                            addToList={ this.addUserToCuratedTrips } 
+                            secondsToString={ this.secondsToString } 
+                        /> } 
+                    />
+                    <Route path={"/private/trips/:tripId"} render={ (props) => 
+                        <TripDetails 
+                            match={ props.match } 
+                            trip={ this.state.userData.trips.concat(this.state.userData.trips).find(item=>props.match.params.tripId === item._id) } 
+                            addToList={ this.addUserToCuratedTrips } 
+                            removeFromList={ this.deleteUserTrip } 
+                            secondsToString={ this.secondsToString } 
+                        /> }
+                    />
+                    {/* <Route exact path={"/about"} render={ (props) => 
+                        <MapDisplay 
+                            searchResults={ this.state.searchResults } 
+                            travelMode={ this.state.travelMode } 
+                            epicRoadTrip={ this.epicRoadTrip }
+                            errorHandler={ this.errorHandler }
+                        /> } 
+                    />  */}
                 </Switch>
                 <footer>
                 </footer>

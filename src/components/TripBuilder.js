@@ -7,7 +7,7 @@ import retroMapStyles from "./retroMapStyles.json";
 class TripBuilder extends React.Component{
     render(){
         return(
-            <section>
+            <section className="container-fluid">
                 <div className="row mt-3">
                     <div className="col-8">
                         <div className="mb-2">

@@ -14,7 +14,7 @@ class TripList extends React.Component{
         });
 
         return(
-            <div>
+            <section className="container-fluid">
                 <Helmet>
                     <title> Epic Road Trips | { this.props.title } </title>
                 </Helmet>
@@ -29,7 +29,7 @@ class TripList extends React.Component{
                         { tripsJSX }
                     </div>
                 </div>
-            </div>
+            </section>
         );
     }
 }

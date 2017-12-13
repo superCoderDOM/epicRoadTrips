@@ -1,7 +1,6 @@
 import React from 'react';
 import keys from '../keys';
 
-/* global google */
 const GOOGLE_MAPS_API_KEY = keys.GOOGLE_MAPS_API_KEY;
 // const _ = require("lodash");
 const { compose, withProps, lifecycle } = require("recompose");

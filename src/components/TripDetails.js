@@ -35,29 +35,31 @@ class TripDetails extends React.Component{
         }
 
         return(
-            <div className="row mt-3">
+            <section className="container-fluid">
                 <Helmet>
                     <title>Epic Road Trip | Trip Details</title>
                 </Helmet>
-                <div className="media">
-                    <div className="col-8 mr-3">
-                        <img src={ trip.image_url } alt="" width="100%" />
-                    </div>
-                    <div className="media-body col-4">
-                        <h2> { trip.trip_name } </h2>
-                        <ul>
-                            <li><strong> Distance: </strong> { Math.floor(trip.estimated_travel_distance / 1000) } km </li>
-                            <li><strong> Duration: </strong> { this.props.secondsToString(trip.estimated_travel_duration) } </li>
-                            <li><strong> Stop Overs: </strong><ul> { tripRouteJSX } </ul></li>
-                            {<li><strong> Votes: </strong> { trip.vote_count } <button onClick={ this.props.voteUp }><i className="material-icons">thumb_up</i></button></li>}
-                            <li><strong> Saves: </strong> { trip.save_count } </li>
-                            <li><strong> Created: </strong> { trip.created } </li>
-                            <li><strong> Updated: </strong> { trip.updated } </li>
-                        </ul>
-                        <button className="btn btn-secondary" onClick={ ()=>this.props.addToList(trip._id) }> Add To Collection </button>
+                <div className="row mt-3">
+                    <div className="media">
+                        <div className="col-8 mr-3">
+                            <img src={ trip.image_url } alt="" width="100%" />
+                        </div>
+                        <div className="media-body col-4">
+                            <h2> { trip.trip_name } </h2>
+                            <ul>
+                                <li><strong> Distance: </strong> { Math.floor(trip.estimated_travel_distance / 1000) } km </li>
+                                <li><strong> Duration: </strong> { this.props.secondsToString(trip.estimated_travel_duration) } </li>
+                                <li><strong> Stop Overs: </strong><ul> { tripRouteJSX } </ul></li>
+                                {<li><strong> Votes: </strong> { trip.vote_count } <button onClick={ this.props.voteUp }><i className="material-icons">thumb_up</i></button></li>}
+                                <li><strong> Saves: </strong> { trip.save_count } </li>
+                                <li><strong> Created: </strong> { trip.created } </li>
+                                <li><strong> Updated: </strong> { trip.updated } </li>
+                            </ul>
+                            <button className="btn btn-secondary" onClick={ ()=>this.props.addToList(trip._id) }> Add To Collection </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         );
     }
 }
