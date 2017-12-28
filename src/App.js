@@ -667,7 +667,7 @@ class App extends React.Component{
         // const numHours = Math.floor((seconds % 86400) / 3600);
         // const numMinutes = Math.floor(((seconds % 86400) % 3600) / 60);
         // const numSeconds = ((seconds % 86400) % 3600) % 60;
-        return numDays + (numDays > 1 ? " days " : numDays === 1 ? " day " : "") + numHours + " hours "; // + numMinutes + " minutes " + numSeconds + " seconds";
+        return (numDays > 0 ? numDays : "") + (numDays > 1 ? " days " : numDays === 1 ? " day " : "") + numHours + " hours "; // + numMinutes + " minutes " + numSeconds + " seconds";
     }
 
     // Set page
