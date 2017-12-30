@@ -9,7 +9,7 @@ class TripList extends React.Component{
     render(){
         const tripsJSX = this.props.trips.map(trip=>{
             return(
-                <TripCard key={ trip._id } match={ this.props.match } trip={ trip } addToList={ this.props.addToList } secondsToString={ this.props.secondsToString }/>
+                <TripCard key={ trip._id } match={ this.props.match } trip={ trip } addToList={ this.props.addToList } removeFromList={ this.props.removeFromList } secondsToString={ this.props.secondsToString }/>
             );
         });
 
@@ -21,7 +21,7 @@ class TripList extends React.Component{
                 <div className="row mt-3">
                     <div className="title-line">
                         <h1 className="ml-2"> { this.props.title } </h1>
-                        <div className="lead">Explore some of the best roadtrips we have on file</div>
+                        <div className="lead"> { this.props.subtitle } </div>
                     </div>
                 </div>
                 <div className="row">

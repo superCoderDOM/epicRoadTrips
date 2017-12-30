@@ -9,19 +9,19 @@ class TripBuilder extends React.Component{
         return(
             <section className="container-fluid">
                 <div className="row mt-3">
-                    <div className="col-8">
+                    <div className="col-6">
                         <div className="mb-2">
                             <SearchBar submitHandler={ this.props.submitHandler }/>
+                        </div>
+                        <div className={ this.props.mapLoading? "loading" : "hidden" }>
+                            <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                            <span className="sr-only">Loading...</span>
                         </div>
                         <MapRenderer 
                             epicRoadTrip={ this.props.epicRoadTrip }
                             searchResults={ this.props.searchResults } 
                             style={ retroMapStyles } isMarkerShown={ true }
                         />
-                        <div className={ this.props.mapLoading? "loading" : "hidden" }>
-                            <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-                            <span className="sr-only">Loading...</span>
-                        </div>
                     </div>
                     <TripManager 
                         addToList={ this.props.addToList } 
@@ -31,6 +31,7 @@ class TripBuilder extends React.Component{
                         openRoadTripFormNew={ this.props.openRoadTripFormNew }
                         removeWaypoint = { this.props.removeWaypoint }
                         resetStopOvers = { this.props.resetStopOvers }
+                        searchResults={ this.props.searchResults }
                         secondsToString={ this.props.secondsToString }
                         title={ this.props.title }
                         trips={ this.props.trips } 

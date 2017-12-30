@@ -37,10 +37,10 @@ class TripCard extends React.Component{
                     <p className="card-text h6 mt-3"> Created: { trip.created } </p>
                     {this.props.match.url !== '/private/trips'? 
                         <div>
-                            <button className="btn btn-secondary" onClick={ ()=>this.props.addToCart(trip._id) }> Add </button>
+                            <button className="btn btn-secondary" onClick={ ()=>this.props.addToList(trip._id) }> Add </button>
                         </div> :
                         <div>
-                            <button className="btn btn-secondary" onClick={ ()=>this.props.removeFromCart(trip._id) }> Remove </button>
+                            <button className="btn btn-secondary" onClick={ ()=>this.props.removeFromList(trip._id) }> Remove </button>
                         </div>
                     }
                 </div>

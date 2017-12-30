@@ -73,6 +73,12 @@ nav img {
   background-color: goldenrod;
 }
 
+.loading {
+  position: absolute;
+  top: 45vh;
+  left: 45%;
+}
+
 .login-form {
   background-color: snow;
   border: thin solid grey;
@@ -81,8 +87,8 @@ nav img {
   left: 50%;
   padding: 2em;
   position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 15vh;
+  transform: translate(-50%);
   width: 50vw;
   z-index: 200;
 }
@@ -98,6 +104,16 @@ nav img {
   font-size: 1.2em;
   margin: 1em 0;
   text-align: center;
+}
+
+.media-body p {
+  font-size: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.navbar {
+  border-bottom: 3px solid goldenrod;
+  font-size: 1.1em;
 }
 
 .navbar-container {
@@ -146,6 +162,11 @@ nav img {
   cursor: pointer;
 }
 
+.row {
+  width: 90%;
+  margin-left: 5%;
+}
+
 .text-overlay {
   border-radius: 0;
   color: white;
@@ -172,27 +193,6 @@ nav img {
   font-size: 1.7em;
   font-weight: bold; 
   text-shadow: 0 0 5px black;
-}
-
-.loading {
-  position: absolute;
-  top: 45%;
-  left: 45%;
-}
-
-.media-body p {
-  font-size: 1.25em;
-  margin-bottom: 0.5em;
-}
-
-.navbar {
-  border-bottom: 3px solid goldenrod;
-  font-size: 1.1em;
-}
-
-.row {
-  width: 90%;
-  margin-left: 5%;
 }
 
 .title-line {

@@ -736,6 +736,7 @@ class App extends React.Component{
                     <Route exact path={"/curated/trips"} render={ (props) => 
                         <TripList 
                             match={ props.match } 
+                            subtitle={"Explore some of the best road trips we have on file"}
                             title={"Curated Road Trips"} 
                             trips={ this.state.curatedTrips } 
                             addToList={ this.addCuratedToUserTrips } 
@@ -752,11 +753,13 @@ class App extends React.Component{
                     />
                     <Route exact path={"/private/trips"} render={ (props) => 
                         <TripList 
-                            match={ props.match } 
+                            match={ props.match }
+                            subtitle={"Review the epic trips you have created"}
                             title={"Your Road Trip Collection"} 
-                            trips={ this.state.userData.trips } 
-                            addToList={ this.addUserToCuratedTrips } 
-                            secondsToString={ this.secondsToString } 
+                            trips={ this.state.userData.trips }
+                            addToList={ this.addUserToCuratedTrips }
+                            removeFromList={ this.deleteUserTrip }
+                            secondsToString={ this.secondsToString }
                         /> } 
                     />
                     <Route path={"/private/trips/:tripId"} render={ (props) => 

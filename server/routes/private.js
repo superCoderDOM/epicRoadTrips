@@ -204,11 +204,11 @@ router.delete('/:userId/trips/:tripId', logger, (req, res) => {
     // code to check if request is valid
 
     // find requested 'Users' document
-    User.findById(req.params.userId)
+    Users.findById(req.params.userId)
     .then(user => {
 
         // remove requested 'Trips' sub-document
-        user.trips.id(req.params.userId).remove();
+        user.trips.id(req.params.tripId).remove();
         return user.save();
     })
     .then(updatedUser => {
