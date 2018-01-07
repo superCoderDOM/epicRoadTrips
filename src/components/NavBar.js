@@ -21,13 +21,13 @@ class NavBar extends React.Component{
                             </ul>
                         </div>
                         <div className="navbar_group">
-                            <ul className="navbar-nav mr-auto">
+                            <ul className="navbar-nav">
                                 { this.props.userName? <li className="nav-item"><span className="nav-link"> Hello { this.props.userName }</span></li> : "" }
                                 { this.props.userName? <li className="nav-item"><NavLink className="nav-link" to="/private/trips"> Your Road Trips { this.props.numUserTrips }</NavLink></li> : "" }
-                                { this.props.userName? "" : <li><button className="btn btn-outline-secondary mr-2  my-2 my-sm-0" onClick={ this.props.requestRegistration }> SIGN UP </button></li> }
+                                { this.props.userName? "" : <li><button className="btn btn-outline-secondary mr-2  my-2 my-sm-1" onClick={ this.props.requestRegistration }> SIGN UP </button></li> }
                                 { this.props.userName?
-                                    <li><button className="btn btn-outline-secondary my-2 my-sm-0" onClick={ this.props.logUserOut }> LOGOUT </button></li> :
-                                    <li><button className="btn btn-outline-secondary my-2 my-sm-0" onClick={ this.props.requestLogin }> LOGIN </button></li> }
+                                    <li><button className="btn btn-outline-secondary my-2 my-sm-1" onClick={ this.props.logUserOut }> LOGOUT </button></li> :
+                                    <li><button className="btn btn-outline-secondary my-2 my-sm-1" onClick={ this.props.requestLogin }> LOGIN </button></li> }
                             </ul>
                         </div>
                     </div>
