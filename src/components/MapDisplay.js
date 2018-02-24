@@ -16,7 +16,7 @@ class MapDisplay extends React.Component{
             travelMode: this.props.travelMode,            
         };
 
-        // bindings
+        // Bindings
         this.createRoutes = this.createRoutes.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentWillUpdate = this.componentWillUpdate.bind(this);
@@ -28,10 +28,10 @@ class MapDisplay extends React.Component{
         // Google Maps API is limited to 10 waypoints so need to break into batches
         const batchSize = 10;
 
-        // create roundtrip by adding first waypoint to end of list (route is optimized for this)
+        // Create roundtrip by adding first waypoint to end of list (route is optimized for this)
         route.push(route[0]);
 
-        // create road trip segments
+        // Create road trip segments
         let subset = 0;
         let tripSegments = [];
         while (subset < route.length){
@@ -47,7 +47,7 @@ class MapDisplay extends React.Component{
             subset += batchSize - 1;
         }
 
-        // set up required information to render results on map 
+        // Set up required information to render results on map 
         const markerOptions = {
             icon: "http://maps.gstatic.com/mapfiles/markers2/marker.png",
         };
@@ -56,7 +56,7 @@ class MapDisplay extends React.Component{
             markerOptions: markerOptions,
         };
 
-        // initialize Google services
+        // Initialize Google services
         const directionsService = new google.maps.DirectionsService();
         const directionsDisplay = new google.maps.DirectionsRenderer(directionsDisplayOptions);
 

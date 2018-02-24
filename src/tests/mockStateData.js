@@ -16,7 +16,7 @@ module.exports = {
         },
         {
             _id: "test02",
-            trip_name: "Hitoric Route 66",
+            trip_name: "Historic Route 66",
             optimized_route: [],
             estimated_travel_distance: 19875030,
             estimated_travel_duration: 198387,
