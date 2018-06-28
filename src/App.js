@@ -496,12 +496,12 @@ class App extends React.Component{
         axios.get(`/maps/places?keywords=${ searchKeywords }`)        
         .then(response => {
 
-            let waypointName;
-            if(response.data[0].formatted_address > response.data[0].name){
-                waypointName = response.data[0].formatted_address;
-            }else{
-                waypointName = response.data[0].name;                
-            }
+            let waypointName = `${response.data[0].name}, ${response.data[0].formatted_address}`;
+            // if(response.data[0].formatted_address > response.data[0].name){
+            //     waypointName = response.data[0].formatted_address;
+            // }else{
+            //     waypointName = response.data[0].name;                
+            // }
 
             this.setState({
                 searchResults: [...(new Set([...this.state.searchResults, response.data[0]]))],
@@ -624,8 +624,8 @@ class App extends React.Component{
     // Remove waypoint from current list
     removeWaypoint(value){
         this.setState({
-            searchResults: [...this.state.searchResults.filter(item => item.formatted_address !== value && item.name !== value)],
-            waypointList: [...this.state.waypointList.filter(waypoint => waypoint !== value)],
+            searchResults: [...this.state.searchResults.filter(item => item.id !== value)],
+            // waypointList: [...this.state.waypointList.filter(waypoint => waypoint !== value)],
         });
     }
 
@@ -649,12 +649,12 @@ class App extends React.Component{
     resetStopOvers(){
         this.setState({
             searchResults: [],
-            waypointList: [],
+            // waypointList: [],
         });
 
         // Update local storage
         const epicData = {
-            waypointList: [],
+            // waypointList: [],
             searchResults: [],
         };
         localStorage.setItem('epicData', JSON.stringify(epicData));
@@ -730,7 +730,7 @@ class App extends React.Component{
                             searchResults={ this.state.searchResults }
                             secondsToString={ this.secondsToString } 
                             submitHandler={ this.searchGoogleMapsPlaces } 
-                            waypointList={ this.state.waypointList } 
+                            // waypointList={ this.state.waypointList } 
                         /> }
                     />
                     <Route exact path={"/curated/trips"} render={ (props) => 

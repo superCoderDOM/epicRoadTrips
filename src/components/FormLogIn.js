@@ -30,7 +30,7 @@ class FormLogIn extends React.Component{
                         <h2> Thanks for being part of our community! </h2>
                     }
                     <div className="button-group">
-                        <button className="btn btn-secondary" onClick={ this.props.closeLoginForm }> CANCEL </button>
+                        <button className="btn btn-warning" onClick={ this.props.closeLoginForm }> CANCEL </button>
                         <input className="btn btn-secondary" type="submit" onSubmit={ this.props.submitHandler } />
                     </div>
                 </form>

@@ -284,7 +284,7 @@ app.post('/login', (req, res)=>{
             // find 'Users' document associated with email provided
             Users.findOne({email: req.body.email})
             .then(user => {
-                console.log(user);
+                // console.log(user);
                 // compare hashed user-provided password to hashed password on file
                 bcrypt.compare(req.body.password, user.password, (error, match) => {
         

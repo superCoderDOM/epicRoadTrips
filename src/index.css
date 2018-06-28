@@ -33,6 +33,15 @@ nav img {
   box-shadow: 2px 2px 5px black;  
 }
 
+.card-delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  color: white;
+  text-shadow: 0px 0px 2px black;
+  cursor: pointer;
+}
+
 .card-deck {
   display: flex;
   flex-direction: row;

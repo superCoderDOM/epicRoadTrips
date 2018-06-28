@@ -8,7 +8,7 @@ class SearchBar extends React.Component{
                 <form onSubmit={ this.props.submitHandler } className="form-inline my-2 my-lg-0" >
                     <div className="row">
                         <div className="input-group">
-                            <button className="input-group-addon" type="submit"><i className="material-icons">add_location</i></button>
+                            <button className="input-group-addon" type="submit"><i className="fas fa-map-marked"></i></button>
                             <input type="search" className="form-control " name="keywords" placeholder="Search places by keywords" width="500px" />
                         </div>
                     </div>
