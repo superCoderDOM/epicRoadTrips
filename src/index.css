@@ -18,6 +18,10 @@ nav img {
 
 /* CLASS */
 
+.badge-width {
+  width: 30px;
+}
+
 .button-group {
   display: flex;
   justify-content: space-between;
@@ -35,7 +39,7 @@ nav img {
 
 .card-delete-btn {
   position: absolute;
-  top: 5px;
+  top: .75rem;
   right: 10px;
   color: white;
   text-shadow: 0px 0px 2px black;
@@ -46,6 +50,18 @@ nav img {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.card-header {
+  padding: .5rem .5rem;
+  margin-bottom: 0;
+  background-color: #ffc107;
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.card-img {
+  background-size: cover;
+  max-height: 200px;
 }
 
 .card-img-top {
@@ -79,7 +95,7 @@ nav img {
 }
 
 .input-group-addon {
-  background-color: goldenrod;
+  background-color: #ffc107;
 }
 
 .loading {
@@ -129,6 +145,7 @@ nav img {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
 }
 
 .place-card {
@@ -222,4 +239,51 @@ nav img {
   align-items: center;
   display: flex;
   flex-direction: row;
+}
+
+.trip-manager {
+  position: relative;
+}
+
+.waypoint {
+  padding: .5rem;
+  border-bottom: solid 2px lightgrey; 
+  width: 100%;
+}
+
+.sidebar {
+  border-left: solid 3px lightgray;
+  background-color: rgba(255, 255, 255, 0.9);
+  overflow: scroll;
+  padding: 1rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 80vh;
+  width: 100%;
+}
+
+.sidebar-trigger {
+  background-color: white;
+  border: solid 3px lightgray;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 20px;
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -25px;
+  margin-left: -10px;
+}
+
+.sidebar__expand {
+  animation: box-expand 5s linear 1;
+}
+
+@keyframes box-expand {
+  0% {width: 5px;}
+  100% {width: 100%;}
 }

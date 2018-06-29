@@ -12,16 +12,13 @@ class NavBar extends React.Component{
                 </button>
                 <div className="collapse navbar-collapse" id="navbarContent">
                     <div className="navbar-container">
-                        <div className="navbar_group">
-                            <ul className="navbar-nav mr-auto">
+                            <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                                 <li className="nav-item"><NavLink className="nav-link" to="/" exact> Home </NavLink></li>
                                 <li className="nav-item"><NavLink className="nav-link" to="/tripbuilder"> Trip Builder </NavLink></li>
                                 <li className="nav-item"><NavLink className="nav-link" to="/curated/trips"> Curated Road Trips </NavLink></li>
                                 <li className="nav-item"><NavLink className="nav-link" to="/about"> About </NavLink></li>
                             </ul>
-                        </div>
-                        <div className="navbar_group">
-                            <ul className="navbar-nav">
+                            <ul className="navbar-nav my-2 my-lg-0">
                                 { this.props.userName? <li className="nav-item"><span className="nav-link"> Hello { this.props.userName }</span></li> : "" }
                                 { this.props.userName? <li className="nav-item"><NavLink className="nav-link" to="/private/trips"> Your Road Trips { this.props.numUserTrips }</NavLink></li> : "" }
                                 { this.props.userName? "" : <li><button className="btn btn-outline-secondary mr-2  my-2 my-sm-1" onClick={ this.props.requestRegistration }> SIGN UP </button></li> }
@@ -29,7 +26,6 @@ class NavBar extends React.Component{
                                     <li><button className="btn btn-outline-secondary my-2 my-sm-1" onClick={ this.props.logUserOut }> LOGOUT </button></li> :
                                     <li><button className="btn btn-outline-secondary my-2 my-sm-1" onClick={ this.props.requestLogin }> LOGIN </button></li> }
                             </ul>
-                        </div>
                     </div>
                 </div>
             </nav>

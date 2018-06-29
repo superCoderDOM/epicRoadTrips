@@ -7,11 +7,17 @@ import keys from '../keys';
 class TripManager extends React.Component{
     render(){
 
+        let showSidebar = '';
+        let sidebarClassList = "sidebar col-12 col-md-6 col-lg-4";
+        if (showSidebar === 'expand') {
+            sidebarClassList += " sidebar__expand";
+        } else if(showSidebar === 'hide') {
+            sidebarClassList += " sidebar__hide";
+        }
+
         let waypointsJSX = this.props.searchResults.map((waypoint, index) => {
             
-            let maxwidth = 300;
-            
-            let waypointName = `${waypoint.name}, ${waypoint.formatted_address}`;
+            // let waypointName = `${waypoint.name}, ${waypoint.formatted_address}`;
             // if(waypoint.formatted_address > waypoint.name){
             //     waypointName = waypoint.formatted_address;
             // }else{
@@ -19,31 +25,23 @@ class TripManager extends React.Component{
             // }
 
             return(
-                <div className="card col-6 mb-1" key={ waypoint.id }>
-                    <div className="card-delete-btn">
-                        <span className="" onClick={ ()=>{this.props.removeWaypoint( waypoint.id )} } width={"90%"}><i className="fas fa-times"></i></span>
+                <div className="waypoint row mb-1 dflex justify-content-between" key={ waypoint.id }>
+                    <div>
+                        <span className="badge badge-warning badge-width"> { index + 1 } </span>
+                        <span className="ml-2"><strong> { waypoint.name } </strong></span>
                     </div>
-                    <img className="card-img-top" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxwidth}&photoreference=${waypoint.photos[0].photo_reference}&key=${keys.GOOGLE_MAPS_API_KEY}`} alt="" width={"90%"}/>
-                    <div className="card-body d-flex justify-content-between">
-                        <div>
-                            <span className="card-text mr-1">{ index + 1 }</span>
-                            <span className="card-text">{ waypointName }</span>
-                        </div>
-                    </div>
+                    <div onClick={ ()=>{this.props.removeWaypoint( waypoint.id )} } ><i className="fas fa-times"></i></div>
+                    {/* <img className="col-12" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxwidth}&photoreference=${waypoint.photos[0].photo_reference}&key=${keys.GOOGLE_MAPS_API_KEY}`} alt="" width={"90%"}/> */}
                 </div>
             );
         });
 
         return(
-            <div id="right-panel" className="col-6">
-                <button className="btn btn-warning mb-2 mr-2" onClick={ this.props.resetStopOvers }> RESET </button>
-                <button className="btn btn-warning mb-2 mr-2" onClick={ this.props.findOptimalRoute }> OPTIMIZE </button>
-                {this.props.epicRoadTrip?
-                    <button className="btn btn-warning mb-2" onClick={ this.props.openRoadTripFormNew }> SAVE </button> : ""
-                }
+            <div id="trip-manager" className={ sidebarClassList }>
+                <div className="sidebar-trigger"><i class="fas fa-angle-right"></i></div>
                 <div className="mt-2">
-                    <h4><strong> Stop Overs: </strong></h4>
-                    <div className="d-flex flex-row-reverse flex-wrap-reverse justify-content-between">
+                    <h4><i class="fas fa-map-marker-alt"></i> Stopovers </h4>
+                    <div className="d-flex flex-row-reverse flex-wrap-reverse align-content-start">
                         { waypointsJSX }
                     </div>
                     {this.props.epicRoadTrip.testRoadTrip?
