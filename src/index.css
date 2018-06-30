@@ -96,12 +96,14 @@ nav img {
 
 .input-group-addon {
   background-color: #ffc107;
+  color: black;
 }
 
 .loading {
   position: absolute;
   top: 45vh;
   left: 45%;
+  z-index: 1;
 }
 
 .login-form {
@@ -193,6 +195,10 @@ nav img {
   margin-left: 5%;
 }
 
+.search-field {
+  /* min-width: 50vw; */
+}
+
 .text-overlay {
   border-radius: 0;
   color: white;
@@ -255,35 +261,66 @@ nav img {
   border-left: solid 3px lightgray;
   background-color: rgba(255, 255, 255, 0.9);
   overflow: scroll;
-  padding: 1rem;
+  padding: 1rem 2rem;
   position: absolute;
   right: 0;
   top: 0;
   height: 80vh;
-  width: 100%;
+  z-index: 10;
 }
 
 .sidebar-trigger {
-  background-color: white;
-  border: solid 3px lightgray;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0 5px 5px 0;
+  color: white;
+  cursor: pointer;
+  display: flex;
   height: 50px;
-  width: 20px;
-  position: absolute;
-  top: 50%;
-  left: 0px;
+  justify-content: center;
   margin-top: -25px;
-  margin-left: -10px;
+  position: absolute;
+  left: 0;  
+  top: 50%;
+  width: 20px;
+  z-index: 11;
+}
+
+.sidebar-trigger:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: lightgray;
 }
 
 .sidebar__expand {
-  animation: box-expand 5s linear 1;
+  animation: sidebar-expand .2s linear 1 forwards;
 }
 
-@keyframes box-expand {
-  0% {width: 5px;}
-  100% {width: 100%;}
+.sidebar__hide {
+  animation: sidebar-hide .2s linear 1 forwards;
+}
+
+@keyframes sidebar-expand {
+  0% {
+    background-color: snow;
+    padding: 0;
+    width: 3%;
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1rem 2rem;
+    width: 100%;
+  }
+}
+
+@keyframes sidebar-hide {
+  0% {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1rem 2rem;
+    width: 100%;
+  }
+  100% {
+    background-color: snow;
+    padding: 0;
+    width: 3%;
+  }
 }

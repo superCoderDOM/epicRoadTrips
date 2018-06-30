@@ -11,7 +11,7 @@ const MapWithADirectionsRenderer = compose(
   withProps({
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `80vh` }} />,
+    containerElement: <div style={{ height: `80vh`, width: `97%` }} />,
     mapElement: <div style={{ height: `100%` }} />,
   }),
 
@@ -61,7 +61,7 @@ const MapWithADirectionsRenderer = compose(
           const places = this.props.searchResults;
           const bounds = new google.maps.LatLngBounds();
 
-          console.log(places);
+          // console.log(places);
 
           places.forEach(place => {
             // if (place.geometry.viewport) {
@@ -75,7 +75,7 @@ const MapWithADirectionsRenderer = compose(
           }));
           const center = bounds.getCenter();
 
-          console.log(bounds);
+          // console.log(bounds);
 
           this.setState({
             bounds: bounds,

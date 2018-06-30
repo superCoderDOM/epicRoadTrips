@@ -42,6 +42,7 @@ class App extends React.Component{
             curatedTrips: mockCuratedTrips,
             mapLoading: false,
             showLoginForm: false,
+            showSidebar: true,
             showTripForm: false,
         };
 
@@ -70,6 +71,8 @@ class App extends React.Component{
         this.searchGoogleMapsPlaces = this.searchGoogleMapsPlaces.bind(this);
         this.secondsToString = this.secondsToString.bind(this);
         this.setPage = this.setPage.bind(this);
+        this.setTravelMode = this.setTravelMode.bind(this);
+        this.toggleSidebar = this.toggleSidebar.bind(this);
     }
 
     /*==================================
@@ -524,6 +527,13 @@ class App extends React.Component{
         event.target.keywords.value = "";
     }
 
+    setTravelMode(selectedTravelMode){
+
+        this.setState({
+            travelMode: selectedTravelMode,
+        });
+    }
+
     /*================================================
         RESPONSIVE LOCAL DATA AND STATE MANAGEMENT
     ================================================*/
@@ -677,6 +687,13 @@ class App extends React.Component{
         });
     }
 
+    //Toggle Sidebar
+    toggleSidebar(){
+        this.setState({
+            showSidebar: this.state.showSidebar? false : true,
+        });
+    }
+
     render(){
 
         return(
@@ -727,9 +744,13 @@ class App extends React.Component{
                             openRoadTripFormNew={ this.openRoadTripFormNew }
                             removeWaypoint={ this.removeWaypoint }
                             resetStopOvers={ this.resetStopOvers }
+                            setTravelMode={ this.setTravelMode }
                             searchResults={ this.state.searchResults }
-                            secondsToString={ this.secondsToString } 
-                            submitHandler={ this.searchGoogleMapsPlaces } 
+                            secondsToString={ this.secondsToString }
+                            showSidebar={ this.state.showSidebar } 
+                            submitHandler={ this.searchGoogleMapsPlaces }
+                            travelMode={ this.state.travelMode }
+                            toggleSidebar={ this.toggleSidebar }
                             // waypointList={ this.state.waypointList } 
                         /> }
                     />
