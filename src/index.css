@@ -252,9 +252,17 @@ nav img {
 }
 
 .waypoint {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
   padding: .5rem;
   border-bottom: solid 2px lightgrey; 
   width: 100%;
+}
+
+.waypoint-name {
+  flex-grow: 8;
 }
 
 .sidebar {

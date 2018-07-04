@@ -2,12 +2,12 @@ import React from 'react';
 import OptimizedRoute from './OptimizedRoute';
 
 // API keys
-import keys from '../keys';
+// import keys from '../keys';
 
 class TripManager extends React.Component{
     render(){
 
-        let sidebarClassList = this.props.showSidebar? "sidebar sidebar__expand col-12 col-md-6 col-lg-4" : "sidebar sidebar__hide col-12 col-md-6 col-lg-4";
+        let sidebarClassList = this.props.showSidebar? "sidebar sidebar__expand col-12 col-md-5 col-lg-4" : "sidebar sidebar__hide col-12 col-md-5 col-lg-4";
         let sidebarTriggerClassList = this.props.showSidebar? "sidebar-trigger sidebar-trigger__expand" : "sidebar-trigger sidebar-trigger__hide";
         let sidebarTriggerIconClassList = this.props.showSidebar? "fas fa-angle-right" : "fas fa-angle-left";
         let sidebarTriggerContentClassList = this.props.showSidebar? "" : "hidden";
@@ -22,10 +22,12 @@ class TripManager extends React.Component{
             // }
 
             return(
-                <div className="waypoint row mb-1 dflex justify-content-between" key={ waypoint.id }>
+                <div className="waypoint mb-1" key={ waypoint.id }>
                     <div>
                         <span className="badge badge-warning badge-width"> { index + 1 } </span>
-                        <span className="ml-2"><strong> { waypoint.name } </strong></span>
+                    </div>
+                    <div className="waypoint-name mx-2">
+                        <strong> { waypoint.name } </strong>
                     </div>
                     <button type="button" className="close" aria-label="Delete stopover" onClick={ ()=>{this.props.removeWaypoint( waypoint.id )} }>
                         <span aria-hidden="true">&times;</span>
